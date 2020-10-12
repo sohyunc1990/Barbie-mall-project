@@ -1,35 +1,43 @@
 class Api::V1::UsersController < ApplicationController
 
     def index
-        @users = User.all
-        render json: @users
+        users = User.all
+
+        render json: users.to_json
     end
 
     def show
-        @user = User.find(params[:id])
-        render json: @user
+        user = User.find(params[:id])
+
+        render json: user.to_json
     end
 
     def create
-        @user = User.new(user_params)
-        @user.save
-        render json: @user
+        user = User.new(user_params)
+        token = encode_token(user_id: user.id)
+
+        if user.valid?
+            user.save
+            render json: user.to_json
+        else
+            render json: "This request is invalid. Please choose a unique username.".to_json
+        end
     end
 
     def update
-        @user = User.find(params[:id])
-        @user.update(user_params)
+        user = User.find(params[:id])
+        user.update(params)
     end
 
     def destroy
-        @user = User.find(params[:id])
-        @user.destroy
+        user = User.find(params[:id])
+        user.destroy
     end
 
     private
-
-    def user_params
-        params.require(:user).permit(:username, :password)
-    end
     
+    def user_params
+        params.permit(:name, :password)
+    end
+
 end
