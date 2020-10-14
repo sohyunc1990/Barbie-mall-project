@@ -4,9 +4,9 @@ import Main from './components/Main.js';
 
 function App() {
   return (
-    <>
-    <Main />
-    </>
+    <div className="grid-container">
+      <Main />
+    </div>
   );
 }
 
