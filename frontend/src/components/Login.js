@@ -1,37 +1,52 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class Login extends Component {
+    constructor(){
+        super()
+        this.state={
+            username: "",
+            password: "",
+            loginErrors: ""
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
 
-    login = (e) => {
-        fetch('http://localhost:3001/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: e.target.parentElement.username.value,
-                password: e.target.parentElement.password.value
-            })
+    handleChange(e){
+        this.setState({
+            [e.target.name]: e.target.value
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.user) {
-                    this.props.setCurrentUser(data.user)
-                }
-                else {
-                    alert(data.message)
-                }
-            })
+    }
+
+    handleSubmit(e){
+        const { username, password } = this.state;
+        
+        axios.post('http://localhost:3001/sessions', {
+            user: {
+                username: username,
+                password: password
+            }
+        },
+        { withCredentials: true }
+        ).then(res => {
+            if (res.data.logged_in) {
+                this.props.handleLogin(res.data);
+            }
+        }).catch(error => {
+            console.log("login error", error);
+        })
+        e.preventDefault();
     }
 
     render() {
         return (
             <div className="loginForm">
-                    <form>
-                        <input placeholder="Username" name="username" required="" type="text" />
-                        <input placeholder="Password" name="password" required="" type="password" />
-                        <button type="button" onClick={this.login}>LOG IN</button>
-                    </form>
+                <form onSubmit={this.handleSubmit}>
+                    <input placeholder="Username" name="username" required="" type="text" autoComplete="off" value={this.state.username} onChange={this.handleChange}/>
+                    <input placeholder="Password" name="password" required="" type="password" value={this.state.password} onChange={this.handleChange}/>
+                    <button type="submit">LOGIN</button>
+                </form>
             </div>
         )
     }

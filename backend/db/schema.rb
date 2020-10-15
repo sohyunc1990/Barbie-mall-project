@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 2020_10_09_181039) do
   enable_extension "plpgsql"
 
   create_table "favorites", force: :cascade do |t|
-    t.integer "user"
-    t.integer "product"
+    t.integer "user_id"
+    t.integer "product_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 2020_10_09_181039) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "user"
-    t.integer "product"
+    t.integer "user_id"
+    t.integer "product_id"
     t.integer "rating"
     t.string "comment"
     t.datetime "created_at", precision: 6, null: false
