@@ -5,33 +5,38 @@ import Signup from './Signup.js'
 import ClothingList from './ClothingList.js'
 import Index from './Index.js'
 import Header from './Header.js';
+import MyFavorites from './MyFavorites.js';
 
 class Main extends React.Component {
     constructor() {
         super()
         this.state = {
-            currentUser: "",
+            loggedInStatus: false,
+            user: {},
             products: []
         }
     }
 
     componentDidMount(){
-        fetch('http://localhost:3001/api/v1/products')
+        fetch('http://localhost:3001/products')
             .then(res => res.json())
             .then(json => {
                 this.setState({ products: json })
             })
     }
 
-    setCurrentUser = (user) => {
+    handleLogout = (e) => {
         this.setState({
-            currentUser: user
+            loggedInStatus: false,
+            user: {}
         })
-        if (user === "") {
+    }
 
-        }
-        else {
-        }
+    setCurrentUser = (data) => {
+        this.setState({
+            loggedInStatus: true,
+            user: data.user
+        })
     }
 
     render(){
@@ -45,10 +50,10 @@ class Main extends React.Component {
                     <Switch>
                         <Route exact path="/home" component={Index}/>
                         <Route exact path="/login" render={() => (
-                                <Login setCurrentUser={this.setCurrentUser} currentUser={this.state.currentUser}/>
+                                <Login handleLogin={this.setCurrentUser}/>
                         )} />
                         <Route exact path="/signup" render={() => (
-                                <Signup setCurrentUser={this.setCurrentUser} />
+                                <Signup handleSignup={this.setCurrentUser}/>
                         )} />
                         <Route exact path="/clothing" render={() => (
                                 <ClothingList products={this.state.products}/>
@@ -59,10 +64,13 @@ class Main extends React.Component {
                         <Route exact path="/clothing/bottoms" render={() => (
                             <ClothingList products={this.state.products.filter(product => product.category === "Bottoms")}/>
                         )}/>
+                        <Route exact path="/myfavorites" render={() => (
+                            <MyFavorites />
+                        )}/>
                     </Switch>
                 </div>
 
-            {this.state.currentUser === "" ?
+            {this.state.loggedInStatus === false ?
             <div className="Navbar">
             <nav className="menu">
             <ol>
@@ -86,8 +94,31 @@ class Main extends React.Component {
             </ol>
           </nav>
           </div>
-
-            : null}
+            : 
+            <div className="Navbar">
+            <nav className="menu">
+            <ol>
+              <li className="menu-item"><NavLink to="/home">Home</NavLink></li>
+              <li className="menu-item">
+                <NavLink to="/clothing">Clothing</NavLink>
+                <ol className="sub-menu">
+                  <li className="menu-item"><NavLink to="/clothing/tops">Tops</NavLink></li>
+                  <li className="menu-item"><NavLink to="/clothing/bottoms">Bottoms</NavLink></li>
+                  <li className="menu-item"><NavLink to="/clothing/dresses">Dresses</NavLink></li>
+                  <li className="menu-item"><NavLink to="/clothing/swim">Swim</NavLink></li>
+                </ol>
+              </li>
+              <li className="menu-item">
+              <NavLink to="/furniture">Furniture</NavLink>
+                <ol className="sub-menu">
+                </ol>
+              </li>
+              <li className="menu-item"><NavLink to="/favorites">My Favorites</NavLink></li>
+              <li className="menu-item" onClick={this.handleLogout}><NavLink to="/home">Log Out</NavLink></li>
+            </ol>
+          </nav>
+          </div>
+            }
             </Router>
             
         )
