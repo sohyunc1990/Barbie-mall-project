@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-export default class Index extends Component {
+export default class Modal extends Component {
     render(){
         return(
             <>
-            home
+                Message in modal
             </>
         )
     }
+
 }

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-export default class Index extends Component {
+export default class ClothingInfo extends Component {
     render(){
         return(
             <>
-            home
+                Clothing Info
             </>
         )
     }
+
 }
