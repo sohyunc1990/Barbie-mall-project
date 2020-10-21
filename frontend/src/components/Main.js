@@ -133,9 +133,9 @@ class Main extends React.Component {
                         <Route exact path="/signup" render={() => (
                                 <Signup handleSignup={this.setCurrentUser}/>
                         )} />
-                        <Route exact path="/myreviews" render={() => (
+                        {/* <Route exact path="/myreviews" render={() => (
                                 <ReviewList user={this.state.user}  reviews={this.state.reviews} reviewedProduct={this.state.reviewedProduct}/>
-                        )} />
+                        )} /> */}
                         <Route exact path="/clothing" render={() => (
                                 <ClothingList user={this.state.user} products={this.state.products} favoriteProduct={this.addfavoriteProduct} selectClothing={this.selectClothing}/>
                         )} />
@@ -203,7 +203,7 @@ class Main extends React.Component {
                 </ol>
               </li>
               <li className="menu-item"><NavLink to="/myfavorites">My Favorites</NavLink></li>
-              <li className="menu-item"><NavLink to="/myreviews">My Reviews</NavLink></li>
+              {/* <li className="menu-item"><NavLink to="/myreviews">My Reviews</NavLink></li> */}
               <li className="menu-item" onClick={this.handleLogout}><NavLink to="/home">Log Out</NavLink></li>
             </ol>
           </nav>

@@ -5,11 +5,12 @@ import ReviewInModal from './ReivewInModal.js'
 
 const MODAL_STYLES = {
     position: 'fixed',
+    display: 'flex',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: '#FFF',
-    padding: '50px',
+    padding: '20px',
     zIndex: 1000
 }
 
@@ -19,7 +20,7 @@ const OVERLAY_STYLES = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, .7)',
+    backgroundColor: 'rgba(0, 0, 0, .5)',
     zIndex: 1000
 }
 
@@ -55,9 +56,8 @@ export default class ClothingInfo extends Component {
         },
         { withCredentials: true }
         )
+
         const data = {
-            user_id: this.props.user.id,
-            product_id: this.props.product.id,
             rating: this.state.rating,
             comment: this.state.comment
         }
@@ -76,23 +76,33 @@ export default class ClothingInfo extends Component {
         <>
         <div style={OVERLAY_STYLES} />
         <div style={MODAL_STYLES}>
-            <img src={product.img_url} alt="Product Img"/>
-            <h5>{product.name}</h5>
-            {this.state.reviews.map(review=> <ReviewInModal key={review.id} review={review} />)}
-            <div className="reviewform">
+            <div className="CardImg">
+                <img src={product.img_url} alt="Product Img"/>
+                <div className="reviewform">
                 <form onSubmit={this.submitReviewForm}>
+                    
                 <select name="rating" onChange={this.handleReview} >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    <option value="1">&#11088;</option>
+                    <option value="2">&#11088;&#11088;</option>
+                    <option value="3">&#11088;&#11088;&#11088;</option>
+                    <option value="4">&#11088;&#11088;&#11088;&#11088;</option>
+                    <option value="5">&#11088;&#11088;&#11088;&#11088;&#11088;</option>
                 </select>
-                    <input onChange={this.handleReview} placeholder="Write your comments here!" name="comment" autoComplete="off" required="" type="text"/>
-                    <button type="submit">SUBMIT</button>
+                    <input onChange={this.handleReview} placeholder="Write your comments here!" name="comment" autoComplete="off" required="" type="text"/><button className="ButtonOnCard" type="submit">SUBMIT</button>
+                    
                 </form>
             </div>
-            <button onClick={this.props.closemodal}>close</button>
+            </div>
+            <div className="CardInfo">
+            <h5 className="ProductNameInCard">{product.name}</h5>
+            <div className="CardReview">
+            {this.state.reviews.map(review=> <ReviewInModal key={review.id} review={review} />)}
+            </div>
+            <div className="closeButtonDiv">
+            <button className="ButtonOnCard" onClick={this.props.closemodal}>CLOSE</button>
+            </div>
+            </div>
+            
         </div>
         </>,
         document.getElementById('portal')
