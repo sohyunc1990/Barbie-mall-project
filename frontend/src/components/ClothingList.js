@@ -5,7 +5,7 @@ export default class ClothingList extends Component {
     render(){
         return(
             <>
-            {this.props.products.map(product=> <Clothing key={product.id} product={product} favoriteProduct={this.props.favoriteProduct}/>)}
+            {this.props.products.map(product=> <Clothing key={product.id} user={this.props.user} product={product} favoriteProduct={this.props.favoriteProduct}/>)}
             </>
         )
     }
