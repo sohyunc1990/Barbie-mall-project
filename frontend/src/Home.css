@@ -1,0 +1,9 @@
+.sliderWrapper{
+    width:800px;
+    margin: auto;
+    height: 1000px;
+}
+
+.sliderImg {
+    height: 20px;
+}
